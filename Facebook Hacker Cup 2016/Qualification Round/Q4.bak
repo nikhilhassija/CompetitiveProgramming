@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector < vector < pair <int,int> > > A;
+vector < string > S;
+vector < int > B;
+
+int diff(string x, string y)
+{
+	int i;
+	for(i=0;i<x.size() && i<y.size();i++)
+		if(x[i]!=y[i])
+			break;
+	return (x.size()-i)+(y.size()-i);
+}
+
+int work(int x, int k)
+{
+	if(k==0)
+		return 0;
+	int res = 0;
+	for(int i=1;i<A[i].size();i++)
+	{
+		if(!B[i] && i!=x)
+		{
+			B[i] = 1;
+			res = A[x][i].first + work(A[x][i].second,k-1);
+		}
+	}
+	if(k == 1)
+		res += S[x].size();
+	return res;
+}
+
+int main()
+{
+	int t;
+	cin>>t;
+	for(int c=1;c<=t;c++)
+	{
+		int n,k;
+		cin>>n>>k;
+		S.resize(n);
+		A.resize(n);
+		for(int i=0;i<n;i++)
+			cin>>S[i];
+		for(int i=0;i<n;i++)
+		{
+			for(int j=0;j<n;j++)
+				A[i].push_back(make_pair(diff(S[i],S[j]),j));
+			sort(A[i].begin(),A[i].end());
+		}
+		int m = 1e9+7;
+		int temp;
+		for(int i=0;i<n;i++)
+		{
+			B.clear();
+			B.resize(n,0);
+			B[i] = 1;
+			temp = S[i].size() + work(i,k-1);
+			m = min(m,temp);
+		}
+		printf("Case #%d: %d",c,m);
+	}
+}
