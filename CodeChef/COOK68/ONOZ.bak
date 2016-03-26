@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int wz(int x)
+{
+	if(x%10 == 0)
+		x = x/10;
+
+	return x;
+}
+
+int match(int h, int m)
+{
+	vector <int> A;
+
+	A.push_back(h%10);
+	A.push_back(m%10);
+	if(h>9)
+		A.push_back(h/10);
+
+	if(m>9)
+		A.push_back(m/10);
+	
+	int f = 1;
+	for(int i=1;i<A.size();i++)
+		if(A[i] != A[i-1])
+			f = 0;
+	return f;
+}
+
+int main()
+{
+	int t;
+	cin>>t;
+
+	while(t--)
+	{
+		int h,m;
+		cin>>h>>m;
+
+		int x = 0;
+		for(int i=0;i<m;i++)
+		{
+			for(int j=0;j<h;j++)
+			{
+				if(match(wz(i),wz(j)))
+				{
+					printf("%d:%d\n",j,i);
+					x++;
+					break;
+				}
+			}
+		}
+
+		cout<<x<<endl<<endl;
+	}
+}
