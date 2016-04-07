@@ -1,29 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 
-#define inf INT_MAX
-#define w 0
-#define g 1
-#define b 2
+#define white 0
+#define grey 1
+#define black 2
 
-struct edge
+struct node
 {
 	int data;
-	struct edge * next;
+	struct node * next;
 };
 
-struct vertex
-{
-	int color;
-	int ideg;
-	struct edge * adj;
-};
-
-void add_edge(struct vertex *, int, int);
-int toposort(struct vertex *, int, int *);
-int visit(struct vertex *, int, int *, int *);
+void add(struct node * G, int x, int y);
+void dfs(struct node * G, int n, int * in, int * res, int * top);
+int visit(struct node * G, int n, int x, int *res, int * top);
 
 int main()
 {
@@ -32,100 +23,95 @@ int main()
 
 	while(t--)
 	{
+
 		int n;
 		scanf("%d",&n);
 
-		struct vertex G[n];
-
-		for(int i=0;i<n;i++)
-		{
-			G[i].color = w;
-			G[i].ideg = 0;
-			G[i].adj = NULL;
-		}
-
+		struct node G[n];
+		int in[n];
+		memset(in,0,sizeof(in));
 		for(int i=0;i<n;i++)
 		{
 			int m;
 			scanf("%d",&m);
 
-			while(m--)
-			{
-				int x;
-				scanf("%d",&x);
+			G[i].data = white;
+			G[i].next = NULL;
 
-				add_edge(G,i,x-1);
-				G[x-1].ideg++;
+			if(m)
+			{
+				for(int j=0;j<m;j++)
+				{
+					int x;
+					scanf("%d",&x);
+	
+						add(G,i,x-1);
+						in[x-1]++;
+				}
 			}
 		}
 
-		int stack[n];
-		if(toposort(G,n,stack))
+		int res[n];
+		int top = 0;
+		dfs(G,n,in,res,&top);
+
+		if(top != n)
 			printf("FAIL\n");
 		else
 		{
 			for(int i=n-1;i>=0;i--)
-				printf("%d ",stack[i]+1);
+				printf("%d ",res[i]+1);
 			printf("\n");
 		}
 	}
 }
 
-void add_edge(struct vertex * G, int x, int y)
+void add(struct node * G, int x, int y)
 {
-	struct edge * xy = (struct edge *)malloc(sizeof(struct edge));
-	xy->data = y;
-	xy->next = NULL;
+	struct node * temp = (struct node *)malloc(sizeof(struct node));
+	temp->data = y;
+	temp->next = NULL;
 
-	if(G[x].adj == NULL)
-		G[x].adj = xy;
+	if(G[x].next == NULL)
+	{
+		G[x].next = temp;
+	}
 	else
 	{
-		struct edge * cur = G[x].adj;
-
+		struct node * cur = G[x].next;
+		
 		while(cur->next != NULL)
 			cur = cur->next;
 
-		cur->next = xy;
-	}
+		cur->next = temp;
+	} 
 }
 
-int toposort(struct vertex * G, int n, int * stack)
+void dfs(struct node * G, int n, int * in, int * res, int * top)
 {
-	int top = 0;
-	int f = 1;
-
 	for(int i=0;i<n;i++)
 	{
-		if(G[i].color == w && G[i].ideg == 0)
-		{
-			f = 0;
-			if(visit(G,i,stack,&top))
-				return 1;
-		}
-	}
 
-	return f;
+		if(G[i].data == white && G[i].next)
+			if(visit(G,n,i,res,top))
+				return ;
+	}
 }
 
-int visit(struct vertex * G, int u, int * stack, int * top)
+int visit(struct node * G, int n, int x, int *res, int * top)
 {
-	G[u].color = g;
+	G[x].data = grey;
+	struct node * cur = G[x].next;
 
-	struct edge * cur = G[u].adj;
-	int res = 0;
-
-	while(cur != NULL)
+	while(cur)
 	{
-		int v = cur->data;
-		if(G[v].color == g)
+		if(G[cur->data].data == grey)
 			return 1;
-		if(G[v].color == w)
-			res = visit(G,v,stack,top);
+		if(G[cur->data].data == white)
+			visit(G,n,cur->data,res,top);
 
 		cur = cur->next;
-	} 
-	G[u].color = b;
-	stack[(*top)++] = u;
-	return res;
-}
+	}
+	G[x].data = black;
+	res[(*top)++] = x;
+} 
