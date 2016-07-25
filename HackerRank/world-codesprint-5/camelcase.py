@@ -1,0 +1,1 @@
+print("{}".format(sum(1 for i in input() if i.isupper()) + 1))
