@@ -7,23 +7,18 @@
 #define _F first
 #define _S second
 #define mset(x) memset(x, 0, sizeof(x))
-#define fastio() ios_base::sync_with_stdio(0);
+#define fastio() ios_base::sync_with_stdio(0)
 
 using namespace std;
 
 int main()
 {
-	int n, m, c;
-	cin >> n >> m >> c;
+	string S;
+	cin >> S;
 
-	cout << ((c-1) / (2*m)) + 1 << " ";
-
-	cout << ((c-1) % (2*m)) / 2 + 1 << " ";
-
-	if(c % 2)
-		cout << "L";
-	else
-		cout << "R";
-
-	cout << endl;
+	for(int i=0;i<S.size();i++)
+	{
+		if(S[i] == 'B')
+			S.erase(i, 1);
+	}	
 }

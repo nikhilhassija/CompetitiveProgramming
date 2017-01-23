@@ -7,23 +7,22 @@
 #define _F first
 #define _S second
 #define mset(x) memset(x, 0, sizeof(x))
-#define fastio() ios_base::sync_with_stdio(0);
+#define fastio() ios_base::sync_with_stdio(0)
 
 using namespace std;
 
 int main()
 {
-	int n, m, c;
-	cin >> n >> m >> c;
+	int n;
+	cin >> n;
 
-	cout << ((c-1) / (2*m)) + 1 << " ";
+	lli A[n], B[n];
+	for(int i=0; i<n; i++)
+		cin >> A[i] >> B[i];
 
-	cout << ((c-1) % (2*m)) / 2 + 1 << " ";
+	lli ans = 0;
+	for(int i=n-1; i>=0; i--)
+		ans += (B[i] - ((A[i] + ans) % B[i])) % B[i];
 
-	if(c % 2)
-		cout << "L";
-	else
-		cout << "R";
-
-	cout << endl;
+	cout << ans << endl;
 }

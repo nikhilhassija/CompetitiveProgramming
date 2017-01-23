@@ -13,17 +13,24 @@ using namespace std;
 
 int main()
 {
-	int n, m, c;
-	cin >> n >> m >> c;
+	int t = 240;
+	int n, k;
+	cin >> n >> k;
 
-	cout << ((c-1) / (2*m)) + 1 << " ";
+	t -= k;
+	int sum = 0;
+	int i=0;
 
-	cout << ((c-1) % (2*m)) / 2 + 1 << " ";
+	while(t > 0)
+	{
+		t -= 5*i;
 
-	if(c % 2)
-		cout << "L";
-	else
-		cout << "R";
+		if(t>0)
+			i++;
+	}
 
-	cout << endl;
+	if(t != 0)
+		i--;
+
+	cout << min(n, i) << endl;
 }

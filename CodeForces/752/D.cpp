@@ -7,130 +7,150 @@
 #define _F first
 #define _S second
 #define mset(x) memset(x, 0, sizeof(x))
+#define fast() ios_base::sync_with_stdio(0);
 
 using namespace std;
 
-struct node
+struct node 
 {
-	node * C[26];
-	int best;
+	priority_queue <int> A,B;
+};
+
+struct pnode
+{
+	priority_queue <int> A;
 };
 
 int isPal(string);
-int findbest(node *, string);
-void insert(node *, string, int);
-
-vector < pair<string, int> > A;
-vector <int> B;
 
 int main()
 {
-	int n,k;
+	int n, k;
 	cin >> n >> k;
 
-	A.resize(n);
-	for(int i=0;i<n;i++)
-		cin >> A[i]._F >> A[i]._S;
+	node PP[n];
+	map <string, int> M;
+	int g = 0;
 
-	B.resize(n);
-	for(int i=0;i<n;i++)
-		B[i] = A[i].second;
+	pnode P[n];
+	map <string, int> PM;
+	int pg = 0;
 
-	priority_queue < pii > P;
-	priority_queue < pair <int, pii> > PP;
-
-	for(int i=0;i<n;i++)
-		if(isPal(A[i]._F))
-		{
-			pair <int, int> p = {A[i]._S, i};
-			P.push(p);
-		}
-
-	node root;
-	for(int i=0;i<26;i++)
-		root.C[i] = NULL;
-	root.best = -1;
-
-	for(int i=0;i<n;i++)
+	while(n--)
 	{
-		int b = findbest(&root, A[i].first);
+		string S;
+		int w;
 
-		if(b != -1)
+		cin >> S >> w;
+
+		if(isPal(S))
 		{
-			// pair <int, pii> = make_pair(A[])
-			PP.push({B[i] + B[b] ,{i, b}});
+
+			if(PM.find(S) != PM.end())
+			{
+				int x = PM[S];
+
+				P[x].A.push(w);
+			}
+			else
+			{
+				PM[S] = pg;
+				P[pg].A.push(w);
+
+				pg++;
+			}
 		}
-
-		string S = A[i].first;
-		reverse(S.begin(), S.end());
-		insert(&root, S, i);
-	}
-
-	int U[n];
-	mset(U);
-
-	int ans = 0;
-
-	priority_queue < pii > Q(P);
-	priority_queue < pair <int, pii> > QQ(PP);
-
-
-	while(!PP.empty() && PP.top().first > 0)
-	{
-		pair <int, pii> p = PP.top();
-		PP.pop();
-
-		int u = p.second.first;
-		int v = p.second.second;
-
-		if(!U[u] && !U[v])
+		else
 		{
-			ans += p.first;
-			U[u] = 1;
-			U[v] = 1;
+			string R = S;
+			reverse(R.begin(), R.end());
+
+			if(M.find(S) != M.end())
+			{
+				int x = M[S];
+
+				PP[x].A.push(w);
+			}
+			else if(M.find(R) != M.end())
+			{
+				int x = M[R];
+
+				PP[x].B.push(w);
+			}
+			else
+			{
+				M[S] = g;
+				PP[g].A.push(w);
+
+				g++;
+			}
 		}
 	}
 
-	while(!P.empty() && P.top().first > 0)
-	{
-		pii p = P.top();
-		P.pop();
+	lli ans = 0;
 
-		if(!U[p.second])
+	for(int i=0; i<g; i++)
+	{
+		while(!PP[i].A.empty() && !PP[i].B.empty())
 		{
-			ans += p.first;
-			break;
+			int a = PP[i].A.top();
+			PP[i].A.pop();
+
+			int b = PP[i].B.top();
+			PP[i].B.pop();
+
+			if(a + b > 0)
+				ans += a + b;
+			else
+				break;
 		}
 	}
 
-	int sum = 0;
-
-	int V[n];
-	mset(V);
-
-	if(!Q.empty() && Q.top().first > 0)
+	lli sum = 0;
+	vector <int> C;
+	vector <int> D;
+	for(int i=0; i<pg; i++)
 	{
-		sum += Q.top().first;
-		V[Q.top().second] = 1;
-	}
-
-	while(!QQ.empty() && QQ.top().first > 0)
-	{
-		pair <int, pii> p = QQ.top();
-		QQ.pop();
-
-		int u = p.second.first;
-		int v = p.second.second;
-
-		if(!V[u] && !V[v])
+		while(P[i].A.size() > 1)
 		{
-			sum += p.first;
-			V[u] = 1;
-			V[v] = 1;
+			int a = P[i].A.top();
+			P[i].A.pop();
+
+			int b = P[i].A.top();
+			P[i].A.pop();
+
+
+			if(a + b > 0)
+			{
+				sum += a + b;
+
+				if(min(a,b) < 0)
+					C.pb(min(a,b));
+			}
+			else
+			{
+				D.pb(a);
+				break;
+			}
+		}
+
+		if(P[i].A.size() && P[i].A.top() > 0)
+		{
+			D.pb(P[i].A.top());
 		}
 	}
 
-	cout << max(sum, ans) << endl;
+	lli best_sum = max(0ll, sum);
+
+	for(int i=0; i<C.size(); i++)
+		best_sum = max(best_sum, sum - C[i]);
+
+	for(int i=0; i<D.size(); i++)
+		best_sum = max(best_sum, sum + D[i]);
+
+	ans += max(0ll, best_sum);
+
+	cout << ans << endl;
 }
 
 int isPal(string S)
@@ -148,47 +168,4 @@ int isPal(string S)
 	}
 
 	return 1;
-}
-
-int findbest(node * root, string S)
-{
-	for(int i=0;i<S.size();i++)
-	{
-		if(root->C[S[i]-'a'] != NULL)
-		{
-			root = root->C[S[i] - 'a'];
-		}
-		else
-			return -1;
-	}
-
-	return root->best;
-}
-
-void insert(node * root, string S, int ind)
-{
-	for(int i=0;i<S.size();i++)
-	{
-		int c = S[i] - 'a';
-
-		if(root->C[c] == NULL)
-		{
-			root->C[c] = (node *)malloc(sizeof(node));
-			for(int j=0;j<26;j++)
-				root->C[c]->C[j] = NULL;
-			root->C[c]->best = -1;
-		}
-
-		root = root -> C[c];
-	}
-
-	if(root->best == -1)
-		root->best = ind;
-	else
-	{
-		int b = root->best;
-
-		if(B[ind] > B[b])
-			root->best = ind;
-	}
 }

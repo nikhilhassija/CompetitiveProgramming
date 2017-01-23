@@ -13,17 +13,22 @@ using namespace std;
 
 int main()
 {
-	int n, m, c;
-	cin >> n >> m >> c;
+	int n;
+	cin >> n;
 
-	cout << ((c-1) / (2*m)) + 1 << " ";
+	int k = 1;
+	vector <int> A;
+	while(2*k < n)
+	{
+		A.pb(k);
+		n -= k;
+		k++;
+	}
 
-	cout << ((c-1) % (2*m)) / 2 + 1 << " ";
+	A.pb(n);
 
-	if(c % 2)
-		cout << "L";
-	else
-		cout << "R";
-
+	cout << k << endl;
+	for(int i=0; i<A.size(); i++)
+		cout << A[i] << " ";
 	cout << endl;
 }
