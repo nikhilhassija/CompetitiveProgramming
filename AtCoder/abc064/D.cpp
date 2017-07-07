@@ -13,27 +13,38 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int n;
+	cin >> n;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	string S;
+	cin >> S;
 
-	while(t < inf)
+	int c = 0;
+	int d = 0;
+
+	for(int i=0; i<n; i++)
 	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		if(S[i] == ')')
 		{
-			cout << t << endl;
-			return 0;
+			if(c)
+				c--;
+			else
+				d++;
+
+		}
+		else
+		{
+			c++;
 		}
 	}
 
-	cout << -1 << endl;
+	while(d--)
+		cout << "(";
+
+	cout << S;
+
+	while(c--)
+		cout << ")";
 
 	return (0-0);	
 }

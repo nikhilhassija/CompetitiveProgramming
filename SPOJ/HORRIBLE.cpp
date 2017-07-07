@@ -73,7 +73,7 @@ void update(lli node, lli tl, lli tr, lli ql, lli qr, lli v)
 	if(tl > tr or qr < tl or tr < ql)
 		return;
 
-	if(tl >= ql and tr <= qr)
+	if(ql <= tl and tr <= qr)
 	{
 		T[node] += (tr - tl + 1) * v;
 

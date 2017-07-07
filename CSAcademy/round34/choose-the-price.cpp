@@ -13,27 +13,23 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	lli n;
+	cin >> n;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	lli C[n];
+	for(int i=0; i<n; i++) 
+		cin >> C[i];
 
-	while(t < inf)
+	sort(C, C+n);
+	reverse(C, C+n);
+
+	lli sum = 0;
+	lli ans = 0;
+	for(int i=0; i<n; i++)
 	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
+		ans = max(ans, C[i] * (i + 1));
 	}
 
-	cout << -1 << endl;
-
+	cout << ans << endl;
 	return (0-0);	
 }

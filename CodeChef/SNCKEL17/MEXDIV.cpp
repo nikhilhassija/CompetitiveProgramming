@@ -11,29 +11,19 @@
 
 using namespace std;
 
+const lli MOD = 1e9 + 7;
+
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int n, k;
+	cin >> n >> k;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int A[n];
+	for(int i=0; i<n; i++)
+		cin >> A[i];
 
-	while(t < inf)
-	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
-	}
-
-	cout << -1 << endl;
+	
 
 	return (0-0);	
 }
+

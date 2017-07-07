@@ -13,27 +13,29 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	freopen("holes.in", "r", stdin);
+	freopen("holes.out", "w", stdout);
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int n;
+	cin >> n;
 
-	while(t < inf)
+	if(not n)
+		cout << 1 << endl;
+	else
 	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		if(n == 1)
+			cout << 0 << endl;
+		else
 		{
-			cout << t << endl;
-			return 0;
+			int d = n / 2;
+
+			if(n % 2)
+				cout << 4;
+
+			while(d--)
+				cout << 8;
+			cout << endl;
 		}
 	}
-
-	cout << -1 << endl;
-
 	return (0-0);	
 }

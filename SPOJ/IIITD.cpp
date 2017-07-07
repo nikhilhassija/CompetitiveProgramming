@@ -13,27 +13,25 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int t;
+	cin >> t;
 
-	lli t   = 0;
-	lli inf = 1e7;
-
-	while(t < inf)
+	while(t--)
 	{
-		t++;
+		int n;
+		cin >> n;
 
-		if(t < b or t < d)
-			continue;
+		int ans = 0;
 
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		if(n < 0)
 		{
-			cout << t << endl;
-			return 0;
+			n *= -1;
+			ans += 2 * n;
 		}
+
+		ans += pow(10, (int(log10(n+0.9))));
+
+		cout << ans << endl;
 	}
-
-	cout << -1 << endl;
-
 	return (0-0);	
 }

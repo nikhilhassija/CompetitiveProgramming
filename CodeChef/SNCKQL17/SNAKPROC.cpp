@@ -13,27 +13,30 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int R;
+	cin >> R;
 
-	lli t   = 0;
-	lli inf = 1e7;
-
-	while(t < inf)
+	while(R--)
 	{
-		t++;
+		int L;
+		cin >> L;
 
-		if(t < b or t < d)
-			continue;
+		string S;
+		cin >> S;
 
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		int c = 0, m = 0, M = 0;
+		for(int i=0; i<L; i++)
 		{
-			cout << t << endl;
-			return 0;
+			c += (S[i] == 'H') - (S[i] == 'T');
+			m = min(c, m);
+			M = max(c, M);
 		}
+
+		if(m < 0 || M > 1 || c)
+			cout << "Invalid" << endl;
+		else
+			cout << "Valid" << endl;
 	}
-
-	cout << -1 << endl;
-
+	
 	return (0-0);	
 }

@@ -13,27 +13,20 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int n;
+	cin >> n;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int A[n];
+	for(int i=0; i<n; i++)
+		cin >> A[i];
+	
+	sort(A, A+n);
+	for(int i=1; i+1<n; i+=2)
+		swap(A[i], A[i+1]);
 
-	while(t < inf)
-	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
-	}
-
-	cout << -1 << endl;
+	for(int i=0; i<n; i++)
+		cout << A[i] << " ";
+	cout << endl;
 
 	return (0-0);	
 }

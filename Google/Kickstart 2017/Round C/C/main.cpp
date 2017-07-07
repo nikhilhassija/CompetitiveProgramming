@@ -13,27 +13,6 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
-
-	lli t   = 0;
-	lli inf = 1e7;
-
-	while(t < inf)
-	{
-		t++;
-
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
-	}
-
-	cout << -1 << endl;
-
+	
 	return (0-0);	
 }

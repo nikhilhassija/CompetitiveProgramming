@@ -13,27 +13,22 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	string S;
+	cin >> S;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int n = S.size();
+	lli ans = 0;
 
-	while(t < inf)
+	for(int i=0; i<n; i++)
 	{
-		t++;
+		ans += (n-1);
 
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
+		if(S[i] == 'U')
+			ans += i;
+		else
+			ans += (n-i-1);
 	}
 
-	cout << -1 << endl;
-
+	cout << ans << endl;
 	return (0-0);	
 }

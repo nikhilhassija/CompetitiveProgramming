@@ -13,27 +13,31 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	fastio();
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int n, m;
+	cin >> n >> m;
 
-	while(t < inf)
+	int A[n+1];
+	for(int i=1; i<=n; i++)
+		cin >> A[i];
+
+	while(m--)
 	{
-		t++;
+		int l, r, x;
+		cin >> l >> r >> x;
 
-		if(t < b or t < d)
-			continue;
+		int c = 0;
 
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
-	}
+		for(int i=l; i<=r; i++)
+			if(A[i] < A[x])
+				c++;
 
-	cout << -1 << endl;
+		if(c == (x - l))
+			cout << "Yes" << endl;
+		else 
+			cout << "No" << endl;
+	}	
 
 	return (0-0);	
 }

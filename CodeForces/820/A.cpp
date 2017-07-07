@@ -13,27 +13,29 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	int c, v0, v1, a, l;
+	cin >> c >> v0 >> v1 >> a >> l;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	int days = 0;
+	int speed = v0;
+	int prog = 0;
 
-	while(t < inf)
+	while(prog < c)
 	{
-		t++;
+		days ++;
+		prog += speed;
 
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		if(prog >= c)
 		{
-			cout << t << endl;
-			return 0;
+			break;
 		}
+
+		prog = max(0, prog - l);
+
+		speed = min(speed + a, v1);
 	}
 
-	cout << -1 << endl;
+	cout << days << endl;
 
 	return (0-0);	
 }

@@ -11,29 +11,31 @@
 
 using namespace std;
 
+lli gety(lli, lli, lli);
+
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	lli m, b;
+	cin >> m >> b;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	lli ans = 0;
 
-	while(t < inf)
+	for(lli x=0; x<=m*b; x++)
 	{
-		t++;
+		lli y = gety(x, m, b);
+		cout << y << endl;
 
-		if(t < b or t < d)
-			continue;
+		lli t = ((x + 1) * (y + 1) * (x + y)) / 2ll;
 
-		if((t - b) % a == 0 and (t - d) % c == 0)
-		{
-			cout << t << endl;
-			return 0;
-		}
+		ans = max(ans, t);
 	}
 
-	cout << -1 << endl;
+	cout << ans << endl;
 
 	return (0-0);	
+}
+
+lli gety(lli x, lli m, lli b)
+{
+	return (b * m - x) / m;
 }

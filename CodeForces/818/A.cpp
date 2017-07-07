@@ -13,27 +13,30 @@ using namespace std;
 
 int main()
 {
-	lli a, b, c, d;
-	cin >> a >> b >> c >> d;
+	lli n, k;
+	cin >> n >> k;
 
-	lli t   = 0;
-	lli inf = 1e7;
+	lli ans = 0;
 
-	while(t < inf)
+	lli l = 0;
+	lli h = n;
+
+	while(l <= h)
 	{
-		t++;
+		lli m = (l + h) / 2;
 
-		if(t < b or t < d)
-			continue;
-
-		if((t - b) % a == 0 and (t - d) % c == 0)
+		if(m <= (n / (2 * (k+1))))
 		{
-			cout << t << endl;
-			return 0;
+			ans = max(ans, m);
+			l = m + 1;
 		}
+		else
+			h = m - 1;
 	}
 
-	cout << -1 << endl;
+	cout << ans << " ";
+	cout << (ans * k) << " ";
+	cout << (n - (ans * (k + 1))) << endl;
 
 	return (0-0);	
 }
